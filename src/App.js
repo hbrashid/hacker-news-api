@@ -29,8 +29,11 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			hits: []
-		};
+      hits: [], 
+      value: ''
+    };
+    
+    this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
 	componentDidMount() {
@@ -43,11 +46,44 @@ class App extends Component {
 				console.log(data);
 			})
 			.catch((error) => console.log("parsing failed", error));
-	}
+  }
+  
+  handleSubmit(event) {
+    event.preventDefault();
+    this.setState({
+      hits: [], 
+      value: ''      
+    })
+  }
+
+  handleChange(event) {
+    this.setState({
+      value: event.target.value
+    });
+  }
+
+  onChange = updatedValue => {
+    this.setState({
+      fields: {
+        ...this.state.fields, 
+        ...updatedValue
+      }
+    })
+  }
 
 	render() {
 		return (
     <div className="App">
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Search:
+          <input type="text" 
+            name="hit"
+            value={this.state.value} 
+            onChange={event => this.handleChange(event)}
+           />
+        </label>
+      </form>
       {this.state.hits.map((hitData, index) => (
       <Hit key={index} news={hitData} />
       ))}
