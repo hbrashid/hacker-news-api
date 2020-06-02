@@ -1,15 +1,29 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import "./App.css";
 
-// class Hit extends Component {
-// 	constructor(props) {
-// 		super(props);
-// 		this.state = {
-// 			isLiked: false
-// 		};
-// 	}
-// }
+class Hit extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			isLiked: false
+		};
+	}
+
+
+render() {
+  return(
+    <div>
+      <span>{this.props.news.title}</span> <a href={this.props.news.url}>{this.props.news.url}</a>
+      <div>{this.props.news.author}</div>
+      <br></br>
+
+
+
+    </div>
+  )
+}
+}
 
 class App extends Component {
 	constructor(props) {
@@ -24,7 +38,7 @@ class App extends Component {
 			.then((json) => json.json())
 			.then((data) => {
 				this.setState({
-					hits: data
+					hits: data.hits
 				});
 				console.log(data);
 			})
@@ -32,7 +46,14 @@ class App extends Component {
 	}
 
 	render() {
-		return <div className="App"></div>;
+		return (
+    <div className="App">
+      {this.state.hits.map((hitData, index) => (
+      <Hit key={index} news={hitData} />
+      ))}
+
+    </div>
+    );
 	}
 }
 
