@@ -6,7 +6,7 @@ class Hit extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isLiked: false
+			
 		};
 	}
 
@@ -37,7 +37,10 @@ class App extends Component {
 	}
 
 	componentDidMount() {
-		fetch("http://hn.algolia.com/api/v1/search?query=")
+    this.fetchData();
+  }
+  fetchData() {
+    fetch(`http://hn.algolia.com/api/v1/search_by_date?query=${this.state.value}&tags=story`)
 			.then((json) => json.json())
 			.then((data) => {
 				this.setState({
@@ -51,8 +54,12 @@ class App extends Component {
   handleSubmit(event) {
     event.preventDefault();
     this.setState({
-      hits: [], 
+      // hits: [], 
       value: ''      
+    })
+    this.fetchData(this.state.value);
+    this.setState({
+      value: ''
     })
   }
 
@@ -62,14 +69,14 @@ class App extends Component {
     });
   }
 
-  onChange = updatedValue => {
-    this.setState({
-      fields: {
-        ...this.state.fields, 
-        ...updatedValue
-      }
-    })
-  }
+  // onChange = updatedValue => {
+  //   this.setState({
+  //     fields: {
+  //       ...this.state.fields, 
+  //       ...updatedValue
+  //     }
+  //   })
+  // }
 
 	render() {
 		return (
@@ -84,6 +91,7 @@ class App extends Component {
            />
         </label>
       </form>
+      <br></br>
       {this.state.hits.map((hitData, index) => (
       <Hit key={index} news={hitData} />
       ))}
