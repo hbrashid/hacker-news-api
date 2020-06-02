@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+// class Hit extends Component {
+// 	constructor(props) {
+// 		super(props);
+// 		this.state = {
+// 			isLiked: false
+// 		};
+// 	}
+// }
+
+class App extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			hits: []
+		};
+	}
+
+	componentDidMount() {
+		fetch("http://hn.algolia.com/api/v1/search?query=")
+			.then((json) => json.json())
+			.then((data) => {
+				this.setState({
+					hits: data
+				});
+				console.log(data);
+			})
+			.catch((error) => console.log("parsing failed", error));
+	}
+
+	render() {
+		return <div className="App"></div>;
+	}
 }
 
 export default App;
