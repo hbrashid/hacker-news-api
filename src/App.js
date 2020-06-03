@@ -82,6 +82,7 @@ class App extends Component {
   }
 
   handleChange(event) {
+    event.preventDefault();
     this.setState({
       // value: event.target.value,
       [event.target.name]: event.target.value
